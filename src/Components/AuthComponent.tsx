@@ -17,8 +17,11 @@ const AuthComponent = () => {
   return (
     <div className="auth_container">
       <span>
-        {' '}
         Из-за ошибки SSL протокола, чтобы получить доступ к бд надо отключить google origin policy.
+      </span>
+      <span>
+        Запуск с localhost не вызовет таких проблем{' '}
+        <a href="https://github.com/Bayraev/test_valantis-api"></a>
       </span>
       <div className="auth_block">
         <input
