@@ -1,38 +1,75 @@
-.App {
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+  color: #007bff;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+tr:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+
+/* AuthComponent */
+.auth_container {
+  padding-top: 15%;
+  text-align: center;
+}
+.auth_block {
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.auth_input {
+  width: 20%;
+  height: 40px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  padding: 0 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  height: 40px;
+  background-color: white;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.page-item {
+  display: flex;
 }
