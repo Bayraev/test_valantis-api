@@ -16,9 +16,6 @@ const AuthComponent = () => {
 
   return (
     <div className="auth_container">
-      <span>
-        Из-за ошибки SSL протокола, чтобы получить доступ к бд надо отключить google origin policy.
-      </span>
       <div className="auth_block">
         <input
           type="password"
