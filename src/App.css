@@ -1,4 +1,5 @@
 .container {
+  box-sizing: border-box;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -73,3 +74,33 @@ button {
 .page-item {
   display: flex;
 }
+
+
+form {
+  position: relative;
+  top: 2px;
+  height: 40px;
+  display: flex;
+  padding: 0 0 0 12px;
+  /* border: 2px solid #007bff; */
+  border-radius:10px 10px 0 0;
+  background-color: #007bff;
+  color: white;
+
+}
+
+form div {
+  width: 110px;
+  margin-right: 10px;
+  font-size: x-large;
+}
+
+form input {
+  background-color: #cee6ff;
+  border: 0;
+  border-radius: 10px 10px 0 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 0 8px 10px;
+  font-size: x-large;
+}:focus{outline: none;}

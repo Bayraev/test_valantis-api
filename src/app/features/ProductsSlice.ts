@@ -29,6 +29,25 @@ export const asyncGetProducts = createAsyncThunk(
   },
 );
 
+export const asyncGetDataForFilter = createAsyncThunk(
+  'products/post2',
+  async (credentials: { filterBy: string; value: string | number }, thunkAPI) => {
+    try {
+      // получаем айдишники отталкиваясь от фильтров
+      const jsonIds: IIds = await ProductsService.asyncFetchDataForFilter(
+        credentials.filterBy,
+        credentials.value,
+        thunkAPI,
+      );
+
+      // возвращаем уже результат из сервиса
+      return await ProductsService.asyncFetchProducts(jsonIds, thunkAPI);
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error });
+    }
+  },
+);
+
 const ProductsSlice = createSlice({
   name: 'products',
   initialState,
@@ -51,6 +70,25 @@ const ProductsSlice = createSlice({
         state.pending = false;
       })
       .addCase(asyncGetProducts.rejected, (state, action) => {
+        state.pending = false;
+        state.errors = action.error;
+      })
+
+      // search products
+      .addCase(asyncGetDataForFilter.pending, (state) => {
+        state.pending = true;
+        state.errors = null;
+      })
+      .addCase(asyncGetDataForFilter.fulfilled, (state, action: PayloadAction<IProducts>) => {
+        // сюда заливается каждый уникальный продукт а затем уже по айди отслеживается
+        const newArray: any = FuncDeleteDublicatesFromArrBy(action.payload.result, 'id');
+
+        // обновление
+        state.products = { result: newArray };
+        state.errors = null;
+        state.pending = false;
+      })
+      .addCase(asyncGetDataForFilter.rejected, (state, action) => {
         state.pending = false;
         state.errors = action.error;
       });

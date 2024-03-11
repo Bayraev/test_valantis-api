@@ -44,3 +44,7 @@ export const funcFilterUniqueStrings = (array) => {
     }
   });
 };
+
+export const isNumeric = (value) => {
+  return !isNaN(value);
+};

@@ -14,7 +14,7 @@ export default class ProductsService {
         params: { ...offsetAndLimit },
       };
 
-      const res = await fetch('http://api.valantis.store:40000/', {
+      const res = await fetch('https://api.valantis.store:41000/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Auth': `${hash}` },
         body: JSON.stringify(bodyGetIds),
@@ -37,7 +37,31 @@ export default class ProductsService {
         },
       };
 
-      const res = await fetch('http://api.valantis.store:40000/', {
+      const res = await fetch('https://api.valantis.store:41000/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Auth': `${password}`,
+        },
+        body: JSON.stringify(bodyGetIds),
+      });
+
+      const jsonIds = await res.json();
+      return jsonIds;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static async asyncFetchDataForFilter(filterBy: string, value: string | number, thunkAPI: any) {
+    try {
+      const password = localStorage.getItem('password');
+
+      const bodyGetIds = {
+        action: 'filter',
+        params: { [filterBy]: value },
+      };
+      const res = await fetch('https://api.valantis.store:41000/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,13 +71,13 @@ export default class ProductsService {
       });
 
       const json = await res.json();
+      // log: {result: ids[]}
+
       if (json.error) {
         return thunkAPI.rejectWithValue(json.error);
       }
 
-      return thunkAPI.fulfillWithValue(json);
-    } catch (error) {
-      return error;
-    }
+      return json;
+    } catch (error) {}
   }
 }

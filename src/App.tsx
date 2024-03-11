@@ -3,21 +3,31 @@ import './App.css';
 import AuthComponent from './Components/AuthComponent';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from './app/store';
-import { asyncGetProducts } from './app/features/ProductsSlice';
+import { asyncGetDataForFilter, asyncGetProducts } from './app/features/ProductsSlice';
 import { IProduct } from './app/models/AsyncFetchModel';
+import { isNumeric } from './app/functions';
 
 function App() {
   const dispatch = useAppDispatch();
   const isAuth: boolean = useSelector((state: RootState) => state.auth.isAuth);
   const products = useSelector((state: RootState) => state.products);
   const [currentPage, setCurrentPage] = useState(0);
+  // for search
+  const [searchKey, setSearchKey] = useState<string>('brand');
+  const [searchValue, setSearchValue] = useState<any>('');
 
   // Старт страницы
   useEffect(() => {
-    if (isAuth) {
+    if (isAuth && products.products.result.length === 0) {
       dispatch(asyncGetProducts({ page: 0 }));
     }
-  }, [isAuth]);
+  }, [dispatch, isAuth, products.products.result]);
+  // если строка поиска становится пустой то обновляется страница
+  useEffect(() => {
+    if (isAuth && searchValue === '') {
+      dispatch(asyncGetProducts({ page: 0 }));
+    }
+  }, [dispatch, isAuth, searchValue]);
 
   // функция должна получить необходимую страницу для рендера.
   const handleNextPage = async () => {
@@ -33,19 +43,39 @@ function App() {
     }
   };
 
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    // проверка лежит ли число в стейте, если да, то парсим в число
+    const isValueNumeric = isNumeric(searchValue);
+    if (isValueNumeric) {
+      setSearchValue(parseInt(searchValue));
+    }
+
+    dispatch(asyncGetDataForFilter({ filterBy: searchKey, value: searchValue }));
+  };
+
   return (
     <>
       {!isAuth && <AuthComponent />}
       {isAuth && (
         <div className="container">
           <h1 className="heading">Список товаров</h1>
+          <form onSubmit={(e) => handleSearch(e)}>
+            <div> {searchKey.toUpperCase()}: </div>
+            <input
+              type="search"
+              className="search"
+              placeholder="Нажмите в таблице название или цену, нажмите Enter"
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          </form>
           <table className="table">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Название</th>
-                <th>Цена</th>
-                <th>Бренд</th>
+                <th onClick={() => setSearchKey('product')}>Название</th>
+                <th onClick={() => setSearchKey('price')}>Цена</th>
+                <th onClick={() => setSearchKey('brand')}>Бренд</th>
               </tr>
             </thead>
             {products.pending ? (

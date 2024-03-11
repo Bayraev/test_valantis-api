@@ -23,8 +23,8 @@ export const asyncAuth = createAsyncThunk(
         params: { offset: 0, limit: 1 },
       };
 
-      //* ДЕЛАЮ ЭТО ДЛЯ ПРОВЕРКИ ПРАВИЛЬНОСТИ ПАРОЛЯ, другого способа проверки нет
-      const res = await fetch('http://api.valantis.store:40000/', {
+      //* ДЕЛАЮ ЭТО ДЛЯ ПРОВЕРКИ ПРАВИЛЬНОСТИ ПАРОЛЯ, другого способа проверки нет!!
+      const res = await fetch('https://api.valantis.store:41000/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Auth': `${hash}` },
         body: JSON.stringify(bodyGetIds),
